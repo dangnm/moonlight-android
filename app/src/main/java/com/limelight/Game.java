@@ -2264,7 +2264,16 @@ public class Game extends Activity implements SurfaceHolder.Callback,
     public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
         switch (keyEvent.getAction()) {
             case KeyEvent.ACTION_DOWN:
-                return handleKeyDown(keyEvent);
+                boolean handled = handleKeyDown(keyEvent);
+                if (handled)
+                    return true;
+
+                // Intercept back key event before android handles it
+                // Always handle the request, the user has to select "Disconnect" within the game menu to actually disconnect
+                if (keyCode == keyEvent.KEYCODE_BACK) {
+                    new GameMenu(this, conn);
+                    return true;
+                }
             case KeyEvent.ACTION_UP:
                 return handleKeyUp(keyEvent);
             default:
