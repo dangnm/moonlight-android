@@ -2265,6 +2265,8 @@ public class Game extends Activity implements SurfaceHolder.Callback,
         switch (keyEvent.getAction()) {
             case KeyEvent.ACTION_DOWN:
                 boolean handled = handleKeyDown(keyEvent);
+                if (!prefConfig.enableBackMenu)
+                    return handled;
                 if (handled)
                     return true;
 
